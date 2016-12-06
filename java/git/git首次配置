@@ -1,0 +1,7 @@
+##git 首次配置和使用
+* 需要配置uername和email
+
+$ git config --global user.name "your name"
+$ git config --global user.email "your_email@youremail.com"
+
+注意：首次提交需要加上origin，git origin push
