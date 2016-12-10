@@ -91,7 +91,7 @@ yield()表示放弃当前cpu的资源，将它让给其它任务线程去使用�
 2.优先级具有规则性（高优先级总是先执行）
 3.优先级具有随机性（不一定优先级高的线程就先执行）
 * 用户线程，守护线程
-
+setDeamon()在start()之前。
         package com.msxf.psp.batch.controller.batch;
         
         /**
