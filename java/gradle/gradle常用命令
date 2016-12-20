@@ -1,0 +1,3 @@
+* 打印jar包依赖树
+    
+        gradle dependeniecs > test.txt //将当前项目的jar依赖树输出到test.txt文件中

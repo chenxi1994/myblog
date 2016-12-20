@@ -1,0 +1,26 @@
+##git 常用命名使用
+git checkout 切换分支
+git branch -a查看远程分支
+git branch 查看本地分支
+git checkout -b cmbc_1.5.5 feature/cmbc_1.5.5 创建一个本地分支cmbc_1.5.5 
+git checkout  feature/cmbc_1.5.5它默认会在本地建立一个和远程分支名字一样的分支
+git -d cmbc_1.5.5 删除本地分支branch 
+git struts
+git pull 拉下分支
+git push 推送分支
+git add 将工作文件修改提交到本地暂存区
+git commit  提交到本地仓库本地暂存区  (git commit -m "hello world" 提交说明message)
+git merge master  将master分支的内容合到当前分支
+git reset --hard 冲突了，远程仓库完全覆盖本地仓库的代码
+
+* 创建tag
+
+        git tag -a bizchannel_20160922_v1.0.27_v1.8.7_online -m "创建一个本地tag"         
+        git push origin bizchannel_20160922_v1.0.27_v1.8.7_online 
+* 创建分支
+
+        git branch  //查看本地的分支
+        git branch feature/weixin_1.2.14  //创建一个本地分支  git branch -b feature/weixin_1.2.14 
+        git push origin feature/weixin_1.2.14  //将本地分支push的远程
+        
+
