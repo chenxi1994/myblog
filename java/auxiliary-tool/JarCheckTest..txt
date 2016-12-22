@@ -1,0 +1,73 @@
+package com.msxf.psp.test;
+
+import java.io.File;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+/**
+ * 扫描是否有冲突的jar
+ * @author yong.zhang
+ *
+ */
+public class JarCheckTest {
+    public static void main(String[] args) {
+        check();
+    }
+
+	public static void check(){
+		File file = new File("C:\\Users\\xi.chen@msxf.com\\Desktop\\psp-trade\\WEB-INF\\lib");
+
+		Map<String,HashSet<String> > jarMap = new HashMap<String,HashSet<String>>();
+		Set<String> repeatSet = new HashSet<String>();
+		try{
+			if(null != file &&  file.exists() && file.isDirectory()){
+				 File[] jarFile = file.listFiles();
+				 for(File f : jarFile){
+					 if(f.isFile() && f.getName().endsWith(".jar")){
+						 JarFile jar = new JarFile(f);
+						 Enumeration<JarEntry> enumJar = jar.entries();
+						 while(enumJar.hasMoreElements()){
+							 JarEntry je = enumJar.nextElement();
+							 if(je.getName().endsWith(".class")){
+								 if(jarMap.containsKey(je.getName())){
+									 jarMap.get(je.getName()).add(f.getName());
+								 }else {
+									 HashSet<String> set = new HashSet<String>();
+            				 		 set.add(f.getName());
+            				 		 jarMap.put(je.getName(), set);
+            				 		 for(String s : jarMap.keySet()){
+            				 			if(jarMap.get(s).size() > 1){
+		             				 		  //存在重复
+		             				 		  HashSet<String> hsfile = jarMap.get(s);
+		             				 		  String sfiles = "";
+		             				 		  for(String sf : hsfile){
+		             				 		      sfiles = sfiles + sf + ",";
+		             				 	      }
+		             				 		  if(!sfiles.contains("javax.") && !sfiles.contains("tomcat-")) {
+//		             				 			System.out.println("冲突jar:  "+ sfiles + "\n 冲突的类：" + s);
+		             				 				repeatSet.add(sfiles);
+		             				 			  }
+		             				 		  }
+            				 			}
+            				 		 }
+								 }
+							 }
+						 }
+                     System.out.println(f.getName());
+                 }
+				 }else {
+                System.out.println("文件路径不对");
+            }
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(repeatSet.size() > 0) {
+			for (String key : repeatSet) {
+				   System.out.println("冲突jar:  "+ key + "\n" );
+		    }
+		}
+	}
+}
+	 
+	
+
