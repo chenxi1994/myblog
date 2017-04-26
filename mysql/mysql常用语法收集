@@ -1,0 +1,33 @@
+## mysql常用语法收集
+1. 表名重命名
+
+        RENAME TABLE `old_table_name` TO `new_table_name`
+2. 表结构复制
+
+        创建一个与原表一样结构的新表，包括索引的复制。
+        CREATE TABLE `new_table_name_` LIKE `old_table_name`;
+3. 修改索引
+
+        注：索引的修改只能先删除再添加
+        1.
+        ALTER TABLE `table_name` DROP INDEX old_index;
+        CREATE INDEX new_index ON user (username(8));
+        2.
+        ALTER TABLE `table_name` DROP INDEX old_index, ADD INDEX new_index(column,...);
+
+
+4. 新增索引
+
+        ALTER TABLE table_name
+        ADD [UNIQUE|FULLTEXT|SPATIAL] INDEX index_name (index_col_name,...) [USING index_type];
+        注意：[UNIQUE|FULLTEXT|SPATIAL]表示使用什么类型的索引，如果不写默认普通的索引,
+            [USING index_type]表示使用什么索引的算法，一般常用的是BTREE,HASH,不过innodb和MyISAM只支持BTREE。
+5. 删除索引
+
+        ALTER TABLE table_name drop INDEX old_index;
+6. 查看索引
+
+        SHOW INDEX FORM db.table_name;
+
+7.修改列
+    ALTER TABLE `batch_deduct_order` CHANGE COLUMN `trans_no` `trans_no` VARCHAR (128) NOT NULL COMMENT '交易流水号' AFTER `order_no`;

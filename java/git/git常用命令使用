@@ -22,5 +22,8 @@ git reset --hard 冲突了，远程仓库完全覆盖本地仓库的代码
         git branch  //查看本地的分支
         git branch feature/weixin_1.2.14  //创建一个本地分支  git branch -b feature/weixin_1.2.14 
         git push origin feature/weixin_1.2.14  //将本地分支push的远程
-        
+
+* 强制提交
+
+        git push -f origin master
 
