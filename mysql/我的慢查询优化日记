@@ -1,0 +1,39 @@
+## MySQL慢查询优化记
+1.
+sql：
+
+        SELECT
+        *
+        FROM
+        	pay_cut_payment_serial
+        WHERE
+        	(
+        		need_notice = '1'
+        		AND error_code = '0'
+        	)
+
+根据业务特性，这条sql每天是定时任务在执行，每次查询的数据很少，所以在这条sql的where条件
+后面加个日期限制并且给日期加上索引，这样一来就不用扫描全表了。可能你会对need_notice 和error_code
+加个联合索引，但是在这个业务场景下，need_notice和error_code更新频率是非常高的，每更新一次
+都要重建索引，所以不建议在这里添加联合索引。
+2.
+
+sql :
+
+        SELECT
+        *
+        FROM
+        	t_payment_notice paymentnot0_
+        WHERE
+        	paymentnot0_.channel_no = 'alipayPaySin'
+        AND paymentnot0_.channel_id = '1'
+        AND paymentnot0_.consume_type = '4'
+        AND (
+        	paymentnot0_.batch_no IS NULL
+        )
+这个sql是每天定时任务去查询通知失败的数据，不同的consume_type表示不同的通知类型，所以我们
+创建了一个联合索引consume_type，channel_no。而且consume_type在很多where条件中都有用到，
+根据索引最左前缀匹配原则，consume_type索引在where条件中单个出现也是有效的。(补充：谁虽然优化
+过后没有出现了慢查询，单这并不是最优的办法，我觉得可以加个日期限制，并建立一盒consume_type，date，channel_no
+的联合索引，但一定要注意日期字段索引的顺序)
+
